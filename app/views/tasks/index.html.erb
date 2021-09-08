@@ -1,0 +1,30 @@
+<h1 class = "text-center">Task index</h1>
+<div class = "container d-flex">
+  <div class = "row mx-auto">
+    <div class = "card">
+      <div class="card-body">
+        <table class="table table-responsive text-center">
+          <thead>
+            <tr>
+              <th>title</th>
+              <th>description</th>
+              <th>priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @tasks.each do |t| %>
+              <tr>
+                  <td><%= link_to t.title, task_path(t.id), class: "text-primary"%></td>
+                  <td><%=t.description%></td>
+                  <td><%=t.priority%></td>
+              </tr>
+            <%end%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div>
+    <%= link_to "Task report", task_report_path, class: "btn btn-primary"%>
+  </div>
+</div>

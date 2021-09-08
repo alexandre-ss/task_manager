@@ -5,5 +5,5 @@ FactoryBot.define do
     end
     password { "123456" }
   end
-
+  
 end

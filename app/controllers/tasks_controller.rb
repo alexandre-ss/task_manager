@@ -5,25 +5,52 @@ class TasksController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[search]
     
   def index
+    @tasks = Task.where(user_id: current_user)
   end
 
-  def show 
+  def show
+    @task = Task.find(params[:id]) 
   end
 
   def new
+    @task = Task.new
   end
 
   def create
+    @task = Task.create!(task_params)
+
+    if @task.save
+      redirect_to tasks_path, notice: "Task was successfully created"
+    else
+      render :new
+    end
   end
 
   def edit
+    @task = Task.find(params[:id])
   end
-
-  def update 
+  
+  def update
+    @task = Task.find(params[:id])
+      if @task.update!(task_params)
+        redirect_to @task, notice: "Task was successfully updated"
+      else
+        flash[:error] = "Something went wrong"
+        render :edit
+      end
   end
-
+  
   def destroy
+    @task = Task.find(params[:id])
+    if @task.destroy
+      flash[:success] = 'Task was successfully deleted.'
+      redirect_to tasks_path
+    else
+      flash[:error] = 'Something went wrong'
+      redirect_to tasks_url
+    end
   end
+  
 
   def complete
   end
@@ -34,10 +61,16 @@ class TasksController < ApplicationController
   private
 
   def task_params
+    params.require(:task).permit(:title, :description, :priority, :share, :status, :user_id)
   end  
 
   def comment_params
   end 
+
+  def find_task
+    @task = Task.find(params[:id])
+  end
+  
 
   def sanitize_sql_like(string, escape_character = "\\")
     pattern = Regexp.union(escape_character, "%", "_")

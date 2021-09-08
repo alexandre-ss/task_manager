@@ -1,0 +1,27 @@
+<h3 class = "text-center">Tasks Report</h3>
+<div class="container d-flex">
+  <div class = 'row mx-auto'>
+    <table class="table table-responsive text-center border rounded">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Comment</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @task.each do |t| %>
+          <% t.comments.each do |c|%>
+            <tr>
+              <td><%= t.id %></td>
+              <td><%= t.title %></td>
+              <td><%= c.body %></td>
+              <td><%= t.status%></td>
+            </tr>
+          <% end %>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -11,6 +11,18 @@
   </div>
 
   <!-- Display of random tasks-->
+
+<div class = "container d-flex">
+  <div class = "row mx-auto">
+    <div class = "card">
+      <div class="card-body text-center">
+        <% @tasks.each do |t|%>
+          <h5><%= t.title%></h5>
+          <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 
 
