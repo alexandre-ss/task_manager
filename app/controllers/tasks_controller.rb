@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :authenticate_user!, only: %i[index new create destroy search]
+  before_action :authenticate_user!, only: %i[index new create destroy search show]
   before_action :user_profile?
   before_action :find_task, only: %i[edit update show confirm_delete destroy delete_comment]
   skip_before_action :verify_authenticity_token, only: %i[search]
@@ -17,12 +17,12 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.create!(task_params)
+    @task = Task.create(task_params)
 
     if @task.save
       redirect_to tasks_path, notice: "Task was successfully created"
     else
-      render :new
+      render :new, notice: @task.errors.full_messages
     end
   end
 
@@ -32,12 +32,12 @@ class TasksController < ApplicationController
   
   def update
     @task = Task.find(params[:id])
-      if @task.update!(task_params)
-        redirect_to @task, notice: "Task was successfully updated"
-      else
-        flash[:error] = "Something went wrong"
-        render :edit
-      end
+    begin
+      @task.update!(task_params)
+      redirect_to @task, notice: "Task was successfully updated"
+    rescue => exception
+      redirect_to task_path(@task), notice: @task.errors.full_messages
+    end
   end
   
   def destroy

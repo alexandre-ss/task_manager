@@ -27,7 +27,7 @@ class ProfilesController < ApplicationController
 
   def update
     if @profile.update(profile_params)
-      flash[:notice] = 'Task Updated!'
+      flash[:notice] = 'Profile Updated!'
       redirect_to @profile
     else
       render :edit
