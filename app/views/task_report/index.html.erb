@@ -11,14 +11,24 @@
         </tr>
       </thead>
       <tbody>
-      <% @task.each do |t| %>
-          <% t.comments.each do |c|%>
+
+        <% @task.each do |t| %>
+          <% unless t.comments.exists?%>
             <tr>
               <td><%= t.id %></td>
               <td><%= t.title %></td>
-              <td><%= c.body %></td>
+              <td>No comment yet</td>
               <td><%= t.status%></td>
             </tr>
+          <%else%>
+            <%t.comments.each do |c|%>
+              <tr>
+                <td><%= t.id %></td>
+                <td><%= t.title %></td>
+                <td><%= c.body%></td>
+                <td><%= t.status%></td>
+              </tr>
+            <%end%>
           <% end %>
         <%end%>
       </tbody>

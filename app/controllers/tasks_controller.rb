@@ -53,6 +53,13 @@ class TasksController < ApplicationController
   
 
   def complete
+    @task = Task.find(params[:id])
+    if @task.update(status: "complete" )
+      redirect_to @task, notice: "Task completed"
+    else
+      flash[:error] = "Something went wrong"
+      render :edit
+    end
   end
 
   def incomplete

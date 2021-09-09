@@ -11,6 +11,7 @@
               <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
+              <th>Complete task</th>
             </tr>
           </thead>
           <tbody>
@@ -20,6 +21,9 @@
                 <td><%=@task.status%>
                 <td><%= link_to "Edit Task", edit_task_path(@task), class: "btn btn-primary btn-sm"%></td>
                 <td><%= link_to "Delete Task", task_path, method: :delete, class: "btn btn-danger btn-sm"%></td>
+                <% if @task.status == "incomplete" %>
+                  <td><%= button_to "Complete task", task_complete_path(@task), class: "btn btn-block btn-sm btn-success", method: :put%></td>
+                <%end%>
             </tr>
             </tr>
           </tbody>
